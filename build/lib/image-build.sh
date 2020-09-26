@@ -69,7 +69,7 @@ function image_build:push() {
 			--os ${os} --arch ${arch} ${variant}
 	done
 	docker manifest push --purge ${manifest_name}
-	echo "===========> multi-arch images are created: ${image_name}"
+	echo "===========> multi-arch images are created: ${manifest_name}"
 }
 
 # Allows to call a function based on arguments passed to the script
