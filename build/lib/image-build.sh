@@ -19,7 +19,7 @@
 set -o errexit
 set -o nounset
 set -o pipefail
-set -o xtrace
+#set -o xtrace
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 ROOT_DIR=${ROOT_DIR:-"$(cd ${SCRIPT_DIR}/../.. && pwd -P)"}
@@ -62,12 +62,14 @@ function image_build:push() {
 		fi
 
 		image_name="${DES_REGISTRY}-${arch}:${VERSION}"
+		echo "===========> Pushing docker image ${image_name}"
 		docker push ${image_name}
 		docker manifest create --amend ${manifest_name} ${image_name}
 		docker manifest annotate ${manifest_name} ${image_name} \
 			--os ${os} --arch ${arch} ${variant}
 	done
 	docker manifest push --purge ${manifest_name}
+	echo "===========> multi-arch images are created: ${image_name}"
 }
 
 # Allows to call a function based on arguments passed to the script
